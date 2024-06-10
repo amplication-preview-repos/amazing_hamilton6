@@ -1,0 +1,85 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model CuentaCorriente {
+  createdAt        DateTime  @default(now())
+  fechaVencimiento DateTime?
+  folioFactura     String?
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  monto            Float?
+  nombre           String?
+  proveedor        String?
+  run              String?
+  updatedAt        DateTime  @updatedAt
+}
+
+model PagoFactura {
+  createdAt           DateTime  @default(now())
+  fechaVencimiento    DateTime?
+  folioFactura        String?
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  montoFactura        Float?
+  montoPagado         Float?
+  nombreProveedor     String?
+  notificacionVencida Boolean?
+  pagado              Boolean?
+  runProveedor        String?
+  updatedAt           DateTime  @updatedAt
+}
+
+model Gasto {
+  createdAt   DateTime @default(now())
+  descripcion String?
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  monto       Float?
+  updatedAt   DateTime @updatedAt
+}
+
+model Arqueo {
+  cajera      String?
+  createdAt   DateTime  @default(now())
+  fechaArqueo DateTime?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  monto       Float?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Proveedor {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre    String?
+  run       String?
+  updatedAt DateTime @updatedAt
+}
+
+model Usuario {
+  createdAt DateTime          @default(now())
+  email     String?
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  password  String?
+  roles     EnumUsuarioRoles?
+  updatedAt DateTime          @updatedAt
+  username  String?
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+enum EnumUsuarioRoles {
+  Option1
+}
